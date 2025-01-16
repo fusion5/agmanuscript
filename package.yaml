@@ -1,0 +1,52 @@
+name: ancientgreek
+version: 0.0.1
+
+default-extensions: 
+  - StrictData
+  - RecordWildCards
+  - OverloadedStrings
+  - DataKinds
+  - ScopedTypeVariables
+  - QuasiQuotes
+  - LambdaCase
+
+dependencies:
+  - base
+  - haskell-say
+  - text
+  - containers
+  - bytestring
+  - binary
+  - safe-decimal
+  - transformers
+  - extra
+  - transformers
+  - type-natural
+  - vector
+  - interpolatedstring-perl6
+  - mtl
+
+ghc-options:
+  - -Wall
+  - -Werror
+  - -Wno-orphans
+
+library:
+  source-dirs: 
+    - src
+
+executable:
+  main: Main.hs
+  source-dirs: 
+    - src
+
+#tests:
+#  xp-asm-test:
+#    main: MainTest
+#    source-dirs: 
+#      - test
+#      - src
+#    dependencies:
+#      - hspec
+#      - quickcheck-instances
+#        # - xp-asm
