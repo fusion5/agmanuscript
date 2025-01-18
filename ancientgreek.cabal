@@ -25,7 +25,8 @@ library
       LambdaCase
   ghc-options: -Wall -Werror -Wno-orphans
   build-depends:
-      base
+      HaXml
+    , base
     , binary
     , bytestring
     , containers
@@ -33,6 +34,7 @@ library
     , haskell-say
     , interpolatedstring-perl6
     , mtl
+    , optparse-applicative
     , safe-decimal
     , text
     , transformers
@@ -56,7 +58,8 @@ executable ancientgreek
       LambdaCase
   ghc-options: -Wall -Werror -Wno-orphans
   build-depends:
-      base
+      HaXml
+    , base
     , binary
     , bytestring
     , containers
@@ -64,6 +67,7 @@ executable ancientgreek
     , haskell-say
     , interpolatedstring-perl6
     , mtl
+    , optparse-applicative
     , safe-decimal
     , text
     , transformers
