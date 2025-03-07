@@ -32,6 +32,7 @@ in
     dict_path   = dictionaries;
     dict_path_1 = "${dictionaries}/${dictionaryPath "1"}";
     buildInputs = with haskellPackages; [
+      dictionaries
       haskell-language-server
       ghcid
       cabal-install

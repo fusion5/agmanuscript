@@ -1,1 +1,7 @@
 Hello World!
+
+2025-02-08
+
+Use conduit and xml-conduit to parse the dictionary files. 
+Consider simple-pipe also, there is xml-pipe.
+Generate a Dictionary type of type Term -> [Definitions] from XML.

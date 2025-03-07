@@ -11,22 +11,25 @@ default-extensions:
   - LambdaCase
 
 dependencies:
-  - HaXml
   - base
   - binary
   - bytestring
-  - optparse-applicative
+  - conduit
   - containers
+  - directory
   - extra
   - haskell-say
   - interpolatedstring-perl6
   - mtl
+  - optparse-applicative
   - safe-decimal
   - text
   - transformers
   - transformers
   - type-natural
   - vector
+  - xml-conduit
+  - xml-types
 
 ghc-options:
   - -Wall
