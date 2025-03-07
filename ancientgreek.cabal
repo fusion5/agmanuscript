@@ -80,3 +80,44 @@ executable ancientgreek
     , xml-conduit
     , xml-types
   default-language: Haskell2010
+
+test-suite ancientgreek-test
+  type: exitcode-stdio-1.0
+  main-is: MainTest.hs
+  other-modules:
+      Main
+      Paths_ancientgreek
+  hs-source-dirs:
+      test
+      src
+  default-extensions:
+      StrictData
+      RecordWildCards
+      OverloadedStrings
+      DataKinds
+      ScopedTypeVariables
+      QuasiQuotes
+      LambdaCase
+  ghc-options: -Wall -Werror -Wno-orphans -main-is MainTest
+  build-depends:
+      base
+    , binary
+    , bytestring
+    , conduit
+    , containers
+    , directory
+    , extra
+    , haskell-say
+    , hspec
+    , interpolatedstring-perl6
+    , mtl
+    , optparse-applicative
+    , quickcheck-instances
+    , safe-decimal
+    , text
+    , transformers
+    , type-natural
+    , vector
+    , xml-conduit
+    , xml-types
+  default-language: Haskell2010

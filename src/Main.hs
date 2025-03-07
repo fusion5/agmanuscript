@@ -7,7 +7,7 @@ import Text.XML.Stream.Parse
 import Data.XML.Types
 import Data.Text as T
 
-import qualified Conduit as C  -- (runConduit, (.|))
+import qualified Conduit as C
 import qualified Options.Applicative as Opt
 import qualified System.Directory    as Dir
 
@@ -29,10 +29,10 @@ cliArgs
           )
 
 data Translation = Translation Text
-  deriving Show
+  deriving (Eq, Show)
 
 data Entry = Entry Text Translation
-  deriving Show
+  deriving (Eq, Show)
 
 testInput :: ByteString
 testInput = "<TEI.2><text><header>bllaal</header><body><div0> <bla />  \
@@ -56,10 +56,10 @@ parseEntry = tag' "entryFree" attributes entryTag
             <*> requireAttr "type"
             <*  ignoreAttrs
     entryTag (key, "main")
-      = do
-        void $ C.mapOutput (Entry key) $ many' $ tagIgnoreAttrs "sense"
-             $ many' parseTranslation
-    entryTag _ = pure ()
+      = void $ C.mapOutput (Entry key)
+          $ many' $ tagIgnoreAttrs "sense"
+             $ many' (contentRec >>= (C.yield . Translation) >> pure Nothing)
+    entryTag _ = void $ many' (ignoreTree anyName ignoreAttrs)
 
 -- Parses <tr>...</tr> -- returns the contents of the tr
 -- >>> testOn "<tr>haaa</tr>" (parseTranslation >> pure ())
@@ -72,6 +72,7 @@ parseTranslation = tagIgnoreAttrs "tr" trTag
         x <- contentRec
         C.yield $ Translation x
 
+-- |Returns all content, concatenated, recursively
 contentRec :: C.ConduitT Event Translation IO Text
 contentRec
   = T.concat <$> many' (tagIgnoreAttrs anyName contentRec `orE` contentMaybe)

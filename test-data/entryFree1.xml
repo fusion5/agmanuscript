@@ -1,0 +1,20 @@
+<entryFree id="n5" key="a)/a" type="gloss" opt="n" TEIform="entryFree">
+    <orth extent="full" lang="greek" opt="n" TEIform="orth">a)/a:</orth> 
+    <foreign lang="greek" TEIform="foreign">su/sthma u(/datos,</foreign> 
+    <bibl default="NO" TEIform="bibl">
+        <author TEIform="author">Hsch.</author>
+        </bibl>, <bibl default="NO" TEIform="bibl">
+        <author TEIform="author">Phot.</author>
+    </bibl>, cf. <title TEIform="title">Et.Gud.</title> 
+    <sense n="II" id="n5.0" level="2" opt="n" TEIform="sense"> 
+        <xr opt="n" TEIform="xr">
+            <lbl opt="n" TEIform="lbl">v.</lbl> 
+            <ref targOrder="U" lang="greek" TEIform="ref">a)/as.</ref>
+        </xr>
+    </sense>
+</entryFree>
+<entryFree key="key1" type="main" h="q">
+        entry1<orth x="y"><bbaa>uxy</bbaa></orth>
+        <sense><tr>translation1</tr></sense>
+</entryFree>
+

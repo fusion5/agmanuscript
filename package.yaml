@@ -45,13 +45,13 @@ executable:
   source-dirs: 
     - src
 
-#tests:
-#  xp-asm-test:
-#    main: MainTest
-#    source-dirs: 
-#      - test
-#      - src
-#    dependencies:
-#      - hspec
-#      - quickcheck-instances
-#        # - xp-asm
+tests:
+  ancientgreek-test:
+    main: MainTest
+    source-dirs: 
+      - test
+      - src
+    dependencies:
+      - hspec
+      - quickcheck-instances
+        # - xp-asm
