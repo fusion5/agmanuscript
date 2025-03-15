@@ -2,16 +2,21 @@ module Main where
 
 import Conduit ((.|))
 import Control.Monad (void, unless)
+import Data.Serialize.Text ()
+import Data.Text as T
+import Data.XML.Types
 import Prelude
 import Text.XML.Stream.Parse
-import Data.XML.Types
-import Data.Text as T
 
-import qualified Conduit as C
-import qualified Data.Conduit.Combinators as C
-import qualified Options.Applicative as Opt
-import qualified System.Directory    as Dir
-import qualified System.FilePath     as File
+import qualified Conduit              as C
+import qualified Data.ByteString.Lazy as BSL
+import qualified Data.Conduit.List    as CL
+import qualified Data.Serialize       as Ser
+import qualified Options.Applicative  as Opt
+import qualified System.Directory     as Dir
+import qualified System.FilePath      as File
+
+import qualified GHC.Generics as GHC
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 
@@ -24,22 +29,30 @@ cliArgs :: Opt.Parser CLIArgs
 cliArgs
   = CLIArgs
     <$> Opt.strOption
-          (   Opt.long "path"
-          <>  Opt.metavar "PATH"
-          <>  Opt.help "Directory of dictionary files in TEI.2 XML format"
-          )
+        (   Opt.long "path"
+        <>  Opt.metavar "PATH"
+        <>  Opt.help "Directory of dictionary files in TEI.2 XML format"
+        )
     <*> Opt.strOption
-          (   Opt.long "extension"
-          <>  Opt.metavar "EXTENSION"
-          <>  Opt.help "Keep files from DIR that match the extension (default: .xml)"
-          <>  Opt.value ".xml"
-          )
+        (   Opt.long "extension"
+        <>  Opt.metavar "EXTENSION"
+        <>  Opt.help "Keep files from DIR that match the extension (default: .xml)"
+        <>  Opt.value ".xml"
+        )
 
-data Translation = Translation Text
-  deriving (Eq, Show)
+newtype Translation = Translation Text
+  deriving (Eq, Show, GHC.Generic)
 
 data Entry = Entry Text Translation
-  deriving (Eq, Show)
+  deriving (Eq, Show, GHC.Generic)
+
+instance Ser.Serialize Translation
+instance Ser.Serialize Entry
+
+newtype Dictionary
+  = Dictionary
+    { dEntries :: [Entry]
+    }
 
 -- Parses <entryFree>...</entryFree>
 parseEntry :: Conduit Event Entry (Maybe ())
@@ -78,16 +91,24 @@ selectDepth =
 
 processDictionaryDir :: FilePath -> IO ()
 processDictionaryDir inputDirectory
-  = C.runConduitRes $ C.sourceDirectory inputDirectory .| C.awaitForever processFile
-  -- runConduitRes and ResourceT don't seem to be needed, except they are required by
-  -- sourceDirectory and sourceFile
+  = -- runConduitRes and ResourceT don't seem to be needed, except they are required by
+    -- sourceDirectory and sourceFile
+    C.runConduitRes $
+       C.sourceDirectory inputDirectory
+    .| C.awaitForever processFile
+    .| conduitPut
+    .| C.printC
 
-processFile :: FilePath -> Conduit a b ()
+conduitPut :: Ser.Serialize a => Conduit a BSL.ByteString ()
+conduitPut = CL.map $ Ser.runPutLazy . Ser.put
+
+processFile :: FilePath -> Conduit a Entry ()
 processFile inputPath | File.takeExtension inputPath == ".xml"
-  = C.sourceFile inputPath .| parseBytes def .| selectDepth
-  .| (C.length @_ @Int >>= (\x -> C.yield (inputPath, x))) .| C.printC
+ = C.sourceFile inputPath .| parseBytes def .| selectDepth
 processFile _ = pure ()
 
+-- |Takes CLI parameters (a directory of xml files) and outputs the serialised dictionary to
+-- stdout.
 main :: IO ()
 main
   = do
