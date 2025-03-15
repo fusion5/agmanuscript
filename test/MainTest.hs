@@ -17,14 +17,16 @@ import Control.Monad (void)
 import qualified Main
 import qualified Conduit as C
 
-testOn :: Show a => ByteString -> C.ConduitT Event a IO () -> IO [a]
-testOn bs conduit
-  = C.runConduit $ parseLBS def bs .| conduit .| C.sinkList
+type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 
-testOnFile :: Show a => FilePath -> C.ConduitT Event a IO () -> IO [a]
+testOn :: Show a => ByteString -> Conduit Event a () -> IO [a]
+testOn bs conduit
+  = C.runConduitRes $ parseLBS def bs .| conduit .| C.sinkList
+
+testOnFile :: Show a => FilePath -> Conduit Event a () -> IO [a]
 testOnFile inputFile conduit
   = C.withSourceFile inputFile $ \fileSource ->
-      C.runConduit $ fileSource .| parseBytes def .| conduit .| C.sinkList
+      C.runConduitRes $ fileSource .| parseBytes def .| conduit .| C.sinkList
 
 main :: IO ()
 main = hspec $

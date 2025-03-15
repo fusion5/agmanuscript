@@ -1,31 +1,38 @@
 module Main where
 
 import Conduit ((.|))
-import Control.Monad (void)
+import Control.Monad (void, unless)
 import Prelude
 import Text.XML.Stream.Parse
 import Data.XML.Types
 import Data.Text as T
 
 import qualified Conduit as C
+import qualified Data.Conduit.Combinators as C
 import qualified Options.Applicative as Opt
 import qualified System.Directory    as Dir
+import qualified System.FilePath     as File
 
-import Data.ByteString.Lazy
-
--- type FilePath = String
+type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 
 data CLIArgs = CLIArgs
-  { dictionaryInFile :: FilePath
+  { dictionaryInDirectory :: FilePath
+  , fileExtension         :: String
   } deriving (Show)
 
 cliArgs :: Opt.Parser CLIArgs
 cliArgs
   = CLIArgs
     <$> Opt.strOption
-          (   Opt.long "dictionary-in"
-          <>  Opt.metavar "FILE"
-          <>  Opt.help "Input dictionary file in XML format"
+          (   Opt.long "path"
+          <>  Opt.metavar "PATH"
+          <>  Opt.help "Directory of dictionary files in TEI.2 XML format"
+          )
+    <*> Opt.strOption
+          (   Opt.long "extension"
+          <>  Opt.metavar "EXTENSION"
+          <>  Opt.help "Keep files from DIR that match the extension (default: .xml)"
+          <>  Opt.value ".xml"
           )
 
 data Translation = Translation Text
@@ -34,21 +41,8 @@ data Translation = Translation Text
 data Entry = Entry Text Translation
   deriving (Eq, Show)
 
-testInput :: ByteString
-testInput = "<TEI.2><text><header>bllaal</header><body><div0> <bla />  \
-  \ <entryFree key=\"key1\" type=\"main\" h=\"q\">entry1<orth x=\"y\"><bbaa>uxy</bbaa></orth><sense><tr>translation1</tr></sense></entryFree>  \
-  \ <entryFree key=\"key2\" type=\"main\">        entry2<orth>zzz</orth>                     <sense>translation2</sense></entryFree>  \
-  \ </div0></body></text></TEI.2>"
-
--- >>> test
-test :: IO ()
-test = C.runConduit $ parseLBS def testInput .| selectDepth .| C.printC
-
-testOn :: Show a => ByteString -> C.ConduitT Event a IO () -> IO ()
-testOn bs conduit = C.runConduit $ parseLBS def bs .| conduit .| C.printC
-
 -- Parses <entryFree>...</entryFree>
-parseEntry :: C.ConduitT Event Entry IO (Maybe ())
+parseEntry :: Conduit Event Entry (Maybe ())
 parseEntry = tag' "entryFree" attributes entryTag
   where
     attributes
@@ -61,10 +55,7 @@ parseEntry = tag' "entryFree" attributes entryTag
              $ many' (contentRec >>= (C.yield . Translation) >> pure Nothing)
     entryTag _ = void $ many' (ignoreTree anyName ignoreAttrs)
 
--- Parses <tr>...</tr> -- returns the contents of the tr
--- >>> testOn "<tr>haaa</tr>" (parseTranslation >> pure ())
--- >>> testOn "<tr>a<u>b</u>c</tr>" (parseTranslation >> pure ())
-parseTranslation :: C.ConduitT Event Translation IO (Maybe ())
+parseTranslation :: Conduit Event Translation (Maybe ())
 parseTranslation = tagIgnoreAttrs "tr" trTag
   where
     trTag
@@ -73,11 +64,11 @@ parseTranslation = tagIgnoreAttrs "tr" trTag
         C.yield $ Translation x
 
 -- |Returns all content, concatenated, recursively
-contentRec :: C.ConduitT Event Translation IO Text
+contentRec :: Conduit Event Translation Text
 contentRec
   = T.concat <$> many' (tagIgnoreAttrs anyName contentRec `orE` contentMaybe)
 
-selectDepth :: C.ConduitT Event Entry IO ()
+selectDepth :: Conduit Event Entry ()
 selectDepth =
   void $ tagIgnoreAttrs "TEI.2"
     $ many' $ tagIgnoreAttrs "text"
@@ -85,30 +76,25 @@ selectDepth =
         $ many' $ tagIgnoreAttrs "div0"
           $ many' parseEntry
 
-processDictionary :: FilePath -> IO ()
-processDictionary inputFile = do
-  void $ C.withSourceFile inputFile $ \fileSource ->
-    C.runConduit
-       $ fileSource
-      .| parseBytes def
-      .| selectDepth
-      .| C.printC
+processDictionaryDir :: FilePath -> IO ()
+processDictionaryDir inputDirectory
+  = C.runConduitRes $ C.sourceDirectory inputDirectory .| C.awaitForever processFile
+  -- runConduitRes and ResourceT don't seem to be needed, except they are required by
+  -- sourceDirectory and sourceFile
+
+processFile :: FilePath -> Conduit a b ()
+processFile inputPath | File.takeExtension inputPath == ".xml"
+  = C.sourceFile inputPath .| parseBytes def .| selectDepth
+  .| (C.length @_ @Int >>= (\x -> C.yield (inputPath, x))) .| C.printC
+processFile _ = pure ()
 
 main :: IO ()
 main
   = do
     CLIArgs{..} <- Opt.execParser cliOpts
-    putStrLn $ "Opening input file: `" <> dictionaryInFile <> "'"
-    exists <- Dir.doesFileExist dictionaryInFile
-    if exists
-      then do
-        putStrLn "The file exists..."
-        perm <- Dir.getPermissions  dictionaryInFile
-        print perm
-        processDictionary dictionaryInFile
-      else
-        putStrLn "File does not exist"
+    putStrLn $ "Opening dictionary in directory path: `" <> dictionaryInDirectory <> "'"
+    exists <- Dir.doesDirectoryExist dictionaryInDirectory
+    unless exists $ error "the given directory path is not accessible"
+    processDictionaryDir dictionaryInDirectory
   where
     cliOpts = Opt.info (cliArgs Opt.<**> Opt.helper) Opt.fullDesc
-    -- fn   = "<TEST>"
-    -- body =  "<ul><li>1</li><li>2</li></ul>"

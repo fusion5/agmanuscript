@@ -16,13 +16,14 @@ library
   hs-source-dirs:
       src
   default-extensions:
-      StrictData
-      RecordWildCards
-      OverloadedStrings
       DataKinds
-      ScopedTypeVariables
-      QuasiQuotes
       LambdaCase
+      OverloadedStrings
+      QuasiQuotes
+      RecordWildCards
+      ScopedTypeVariables
+      StrictData
+      TypeApplications
   ghc-options: -Wall -Werror -Wno-orphans
   build-depends:
       base
@@ -32,6 +33,7 @@ library
     , containers
     , directory
     , extra
+    , filepath
     , haskell-say
     , interpolatedstring-perl6
     , mtl
@@ -52,13 +54,14 @@ executable ancientgreek
   hs-source-dirs:
       src
   default-extensions:
-      StrictData
-      RecordWildCards
-      OverloadedStrings
       DataKinds
-      ScopedTypeVariables
-      QuasiQuotes
       LambdaCase
+      OverloadedStrings
+      QuasiQuotes
+      RecordWildCards
+      ScopedTypeVariables
+      StrictData
+      TypeApplications
   ghc-options: -Wall -Werror -Wno-orphans
   build-depends:
       base
@@ -68,6 +71,7 @@ executable ancientgreek
     , containers
     , directory
     , extra
+    , filepath
     , haskell-say
     , interpolatedstring-perl6
     , mtl
@@ -91,13 +95,14 @@ test-suite ancientgreek-test
       test
       src
   default-extensions:
-      StrictData
-      RecordWildCards
-      OverloadedStrings
       DataKinds
-      ScopedTypeVariables
-      QuasiQuotes
       LambdaCase
+      OverloadedStrings
+      QuasiQuotes
+      RecordWildCards
+      ScopedTypeVariables
+      StrictData
+      TypeApplications
   ghc-options: -Wall -Werror -Wno-orphans -main-is MainTest
   build-depends:
       base
@@ -107,6 +112,7 @@ test-suite ancientgreek-test
     , containers
     , directory
     , extra
+    , filepath
     , haskell-say
     , hspec
     , interpolatedstring-perl6

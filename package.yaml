@@ -2,13 +2,14 @@ name: ancientgreek
 version: 0.0.1
 
 default-extensions: 
-  - StrictData
-  - RecordWildCards
-  - OverloadedStrings
   - DataKinds
-  - ScopedTypeVariables
-  - QuasiQuotes
   - LambdaCase
+  - OverloadedStrings
+  - QuasiQuotes
+  - RecordWildCards
+  - ScopedTypeVariables
+  - StrictData
+  - TypeApplications
 
 dependencies:
   - base
@@ -18,6 +19,7 @@ dependencies:
   - containers
   - directory
   - extra
+  - filepath
   - haskell-say
   - interpolatedstring-perl6
   - mtl
