@@ -49,19 +49,12 @@ data Entry = Entry Text Translation
 instance Ser.Serialize Translation
 instance Ser.Serialize Entry
 
-newtype Dictionary
-  = Dictionary
-    { dEntries :: [Entry]
-    }
-
 -- Parses <entryFree>...</entryFree>
 parseEntry :: Conduit Event Entry (Maybe ())
 parseEntry = tag' "entryFree" attributes entryTag
   where
     attributes
-      = (,) <$> requireAttr "key"
-            <*> requireAttr "type"
-            <*  ignoreAttrs
+      = (,) <$> requireAttr "key" <*> requireAttr "type" <*  ignoreAttrs
     entryTag (key, "main")
       = void $ C.mapOutput (Entry key)
           $ many' $ tagIgnoreAttrs "sense"
@@ -69,17 +62,11 @@ parseEntry = tag' "entryFree" attributes entryTag
     entryTag _ = void $ many' (ignoreTree anyName ignoreAttrs)
 
 parseTranslation :: Conduit Event Translation (Maybe ())
-parseTranslation = tagIgnoreAttrs "tr" trTag
-  where
-    trTag
-      = do
-        x <- contentRec
-        C.yield $ Translation x
+parseTranslation = tagIgnoreAttrs "tr" $ contentRec >>= (C.yield . Translation)
 
 -- |Returns all content, concatenated, recursively
 contentRec :: Conduit Event Translation Text
-contentRec
-  = T.concat <$> many' (tagIgnoreAttrs anyName contentRec `orE` contentMaybe)
+contentRec = T.concat <$> many' (tagIgnoreAttrs anyName contentRec `orE` contentMaybe)
 
 selectDepth :: Conduit Event Entry ()
 selectDepth =
@@ -107,8 +94,8 @@ processFile inputPath | File.takeExtension inputPath == ".xml"
  = C.sourceFile inputPath .| parseBytes def .| selectDepth
 processFile _ = pure ()
 
--- |Takes CLI parameters (a directory of xml files) and outputs the serialised dictionary to
--- stdout.
+-- |Takes CLI parameters (a directory of xml files) and outputs the serialised dictionary,
+-- of type [Entry], to stdout.
 main :: IO ()
 main
   = do
