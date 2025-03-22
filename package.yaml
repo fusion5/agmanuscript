@@ -45,10 +45,13 @@ library:
   source-dirs: 
     - src
 
-executable:
-  main: Main.hs
-  source-dirs: 
-    - src
+executables:
+  mkdictionary:
+    main: Main.hs
+    source-dirs: 
+      - src-mkdictionary
+    dependencies:
+      - ancientgreek
 
 tests:
   ancientgreek-test:
@@ -59,4 +62,3 @@ tests:
     dependencies:
       - hspec
       - quickcheck-instances
-        # - xp-asm

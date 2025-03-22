@@ -10,7 +10,9 @@ build-type:     Simple
 
 library
   exposed-modules:
-      Main
+      Common
+      MakeDictionary
+      MakeDictionary.Internal
   other-modules:
       Paths_ancientgreek
   hs-source-dirs:
@@ -50,12 +52,12 @@ library
     , xml-types
   default-language: Haskell2010
 
-executable ancientgreek
+executable mkdictionary
   main-is: Main.hs
   other-modules:
       Paths_ancientgreek
   hs-source-dirs:
-      src
+      src-mkdictionary
   default-extensions:
       DataKinds
       DeriveGeneric
@@ -68,7 +70,8 @@ executable ancientgreek
       TypeApplications
   ghc-options: -Wall -Werror -Wno-orphans
   build-depends:
-      base
+      ancientgreek
+    , base
     , binary
     , bytestring
     , cereal
@@ -95,7 +98,9 @@ test-suite ancientgreek-test
   type: exitcode-stdio-1.0
   main-is: MainTest.hs
   other-modules:
-      Main
+      Common
+      MakeDictionary
+      MakeDictionary.Internal
       Paths_ancientgreek
   hs-source-dirs:
       test

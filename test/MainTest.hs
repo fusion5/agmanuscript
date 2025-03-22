@@ -14,7 +14,7 @@ import Test.QuickCheck.Instances.Natural ()
 import Text.XML.Stream.Parse
 import Control.Monad (void)
 
-import qualified Main
+import qualified MakeDictionary.Internal as MD
 import qualified Conduit as C
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
@@ -31,16 +31,16 @@ testOnFile inputFile conduit
 main :: IO ()
 main = hspec $
   do
-    parseEntriesSpec
+    makeDictionarySpec
 
-parseEntriesSpec :: Spec
-parseEntriesSpec
+makeDictionarySpec :: Spec
+makeDictionarySpec
   = do
       it "Parse entryFree0.xml" $ do
-        testOnFile "./test-data/entryFree0.xml" (void Main.parseEntry)
+        testOnFile "./test-data/entryFree0.xml" (void MD.parseEntry)
           `shouldReturn`
-            [Main.Entry "key1" (Main.Translation "translation1")]
+            [MD.Entry "key1" (MD.Translation "translation1")]
       it "Parse entryFree1.xml" $ do
-        testOnFile "./test-data/entryFree1.xml" (void $ many' Main.parseEntry)
+        testOnFile "./test-data/entryFree1.xml" (void $ many' MD.parseEntry)
           `shouldReturn`
-            [Main.Entry "key1" (Main.Translation "translation1")]
+            [MD.Entry "key1" (MD.Translation "translation1")]
