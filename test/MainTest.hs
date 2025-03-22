@@ -1,7 +1,4 @@
-{-# LANGUAGE DeriveTraversable #-}
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE TypeApplications #-}
 
 module MainTest where
 
@@ -15,7 +12,8 @@ import Text.XML.Stream.Parse
 import Control.Monad (void)
 
 import qualified MakeDictionary.Internal as MD
-import qualified Conduit as C
+import qualified Dictionary.Types        as Dictionary
+import qualified Conduit                 as C
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 
@@ -39,8 +37,8 @@ makeDictionarySpec
       it "Parse entryFree0.xml" $ do
         testOnFile "./test-data/entryFree0.xml" (void MD.parseEntry)
           `shouldReturn`
-            [MD.Entry "key1" (MD.Translation "translation1")]
+            [Dictionary.Entry "key1" (Dictionary.Translation "translation1")]
       it "Parse entryFree1.xml" $ do
         testOnFile "./test-data/entryFree1.xml" (void $ many' MD.parseEntry)
           `shouldReturn`
-            [MD.Entry "key1" (MD.Translation "translation1")]
+            [Dictionary.Entry "key1" (Dictionary.Translation "translation1")]

@@ -11,6 +11,7 @@ build-type:     Simple
 library
   exposed-modules:
       Common
+      Dictionary.Types
       MakeDictionary
       MakeDictionary.Internal
   other-modules:
@@ -99,6 +100,7 @@ test-suite ancientgreek-test
   main-is: MainTest.hs
   other-modules:
       Common
+      Dictionary.Types
       MakeDictionary
       MakeDictionary.Internal
       Paths_ancientgreek

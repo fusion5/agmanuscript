@@ -3,8 +3,8 @@ module MakeDictionary.Internal
   , Entry(..)
   , Translation(..)
   , parseEntry
-  , selectDepth
   , processFile
+  , selectDepth
   )
   where
 
@@ -12,21 +12,12 @@ import Common
 import Conduit ((.|))
 import Data.Serialize.Text ()
 import Data.Text as T
+import Dictionary.Types
 
 import qualified Conduit               as C
-import qualified Data.Serialize        as Ser
 import qualified Data.XML.Types        as XMLStream
 import qualified System.FilePath       as File
 import qualified Text.XML.Stream.Parse as XML
-
-newtype Translation = Translation Text
-  deriving (Eq, Show, Generic)
-
-data Entry = Entry Text Translation
-  deriving (Eq, Show, Generic)
-
-instance Ser.Serialize Translation
-instance Ser.Serialize Entry
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 
