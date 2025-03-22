@@ -1,4 +1,7 @@
-Hello World!
+Ancient greek interpreter helper
+
+Formatting: 
+    fourmolu --mode-inplace .
 
 2025-02-08
 
@@ -6,6 +9,10 @@ Hello World!
 
 Use conduit and xml-conduit to parse the dictionary files
     OK done, with folder traversal.
+
+2025-03-22
+
+Refactor modules, add fourmolu formatter.
 
 TODO:
 

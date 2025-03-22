@@ -1,8 +1,8 @@
-module Dictionary.Types
-  ( Entry(..)
-  , Translation(..)
-  )
-  where
+module Dictionary.Types (
+  Entry (..),
+  Translation (..),
+)
+where
 
 import Common
 import Data.Serialize.Text ()
@@ -18,4 +18,3 @@ data Entry = Entry Text Translation
 
 instance Ser.Serialize Translation
 instance Ser.Serialize Entry
-

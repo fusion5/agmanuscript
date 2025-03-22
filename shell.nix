@@ -22,6 +22,7 @@ in
     buildInputs = with haskellPackages; [
       cabal-install
       dictionaries
+      fourmolu
       ghcid
       haskell-language-server
       hpack
