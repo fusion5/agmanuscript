@@ -13,7 +13,7 @@ import Prelude
 
 import qualified Conduit as C
 import qualified Dictionary.Types as Dictionary
-import qualified MakeDictionary.Internal as MD
+import qualified MakeDictionary as MD
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 

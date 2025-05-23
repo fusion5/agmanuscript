@@ -1,5 +1,6 @@
 module MakeDictionary (
   traverseDictionaryDir,
+  MakeDictionary.Internal.parseEntry,
 ) where
 
 import Conduit ((.|))
