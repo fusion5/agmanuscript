@@ -14,8 +14,14 @@ Use conduit and xml-conduit to parse the dictionary files
 
 Refactor modules, add fourmolu formatter.
 
+2025-05-23
+
+Define a simple parser model and some tests for it.
+
 TODO:
 
+Fix the parser model and make the tests pass. Write more tests
+Make the parser efficient
 Benchmark serialisation to ensure that it runs in constant memory
 Consider simple-pipe also, there is xml-pipe.
 Generate a Dictionary type of type Term -> [Definitions] from XML.
