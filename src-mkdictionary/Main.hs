@@ -18,16 +18,18 @@ cliArgs =
   CLIArgs
     <$> Opt.strOption
       ( Opt.long "path"
-          <> Opt.metavar "PATH"
-          <> Opt.help "Directory of dictionary files in TEI.2 XML format"
+          <> Opt.metavar "DIR"
+          <> Opt.help "Directory of input dictionary files in TEI.2 XML format"
       )
     <*> Opt.strOption
       ( Opt.long "extension"
           <> Opt.metavar "EXTENSION"
-          <> Opt.help "Keep files from DIR that match the extension (default: .xml)"
+          <> Opt.help "Input files from DIR that match the extension (default: .xml)"
           <> Opt.value ".xml"
       )
 
+-- | Outputs to stdout the serialised dictionary built from the TEI.2 XML input
+-- parameters given through the CLI
 main :: IO ()
 main =
   do
