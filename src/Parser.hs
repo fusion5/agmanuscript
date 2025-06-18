@@ -1,32 +1,28 @@
-module Parser (parse, Token (..)) where
+module Parser (parse) where
 
 import Data.List (stripPrefix)
 
 import qualified Data.Map as Map
 
-data Token = A | B | AA | AAA
-  deriving (Show, Eq)
-
-parse :: Map.Map String Token -> String -> [[Token]]
+-- Given a map of terms and symbols, generate all possible parsings of the given string, the
+-- map defines a regular language
+parse :: Map.Map String result -> String -> [[result]]
 parse dict = map snd . just (many $ dictionary dict)
 
 -- Keeps only results that no longer present any remaining input
 just :: Parser Char a -> Parser Char a
-just p = filter f . p
- where
-  f ("", _) = True
-  f _ = False
+just p = filter ((==) "" . fst) . p
 
 type Parser symbol result = [symbol] -> [([symbol], result)]
 
 -- epsilon :: Parser Char ()
 -- epsilon xs = [(xs, ())]
 
-succeed :: r -> Parser Char r
-succeed v xs = [(xs, v)]
-
 -- fail :: Parser Char r
 -- fail _ = []
+
+succeed :: r -> Parser Char r
+succeed v xs = [(xs, v)]
 
 keywordToken :: String -> a -> Parser Char a
 keywordToken prefix newSymbol xs =
@@ -53,36 +49,5 @@ alts = foldl (Parser.<|>) mempty
 dictionaryToAlts :: Map.Map String a -> [Parser Char a]
 dictionaryToAlts = map (uncurry keywordToken) . Map.toList
 
-dictionary :: Map.Map String Token -> Parser Char [Token]
+dictionary :: Map.Map String symbol -> Parser Char [symbol]
 dictionary = alts . dictionaryToAlts . Map.map pure
-
--- >>> _test4 "aab"
--- [("",[A,A,B]),("b",[A,A]),("ab",[A]),("",[AA,B]),("b",[AA]),("aab",[])]
-_test4 :: Parser Char [Token]
-_test4 = many (dictionary testTerms)
- where
-  testTerms :: Map.Map String Token
-  testTerms =
-    Map.fromList
-      [ ("a", A)
-      , ("aa", AA)
-      , ("aaa", AAA)
-      , ("b", B)
-      ]
-
--- >>> test1 "ab"
--- [("",[A,B])]
-_test1 :: Parser Char [Token]
-_test1 = keywordToken "a" [A] Parser.<*> keywordToken "b" [B]
-
--- >>> test2 "a"
--- [("",[A])]
--- >>> test2 "b"
--- [("",[B])]
-_test2 :: Parser Char [Token]
-_test2 = keywordToken "a" [A] Parser.<|> keywordToken "b" [B]
-
--- >>> test3 "aab"
--- [("",[A,A,B]),("b",[A,A]),("ab",[A]),("aab",[])]
-_test3 :: Parser Char [Token]
-_test3 = many _test2

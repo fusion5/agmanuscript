@@ -44,26 +44,29 @@ makeDictionarySpec =
       testOnFile "./test-data/entryFree1.xml" (void $ many' MD.parseEntry)
         `shouldReturn` [Dictionary.Entry "key1" (Dictionary.Translation "translation1")]
 
+data Token = A | B | AA | AAA
+  deriving (Show, Eq)
+
 parseTextSpec :: Spec
 parseTextSpec =
   do
     describe "Given a map of unambiguous terms and an input text containing the terms" $ do
       let
-        terms = Map.insert "aa" Parser.A $ Map.insert "bbb" Parser.B Map.empty
+        terms = Map.insert "aa" A $ Map.insert "bbb" B Map.empty
       it "Then the empty string is recognised but doesn't produce tokens" $ do
         Parser.parse terms "" `shouldBe` [[]]
       it "Then something not in the map is not recognised" $ do
         Parser.parse terms "c" `shouldBe` []
       it "Then a single term is recognised" $ do
-        Parser.parse terms "aa" `shouldBe` [[Parser.A]]
-        Parser.parse terms "bbb" `shouldBe` [[Parser.B]]
+        Parser.parse terms "aa" `shouldBe` [[A]]
+        Parser.parse terms "bbb" `shouldBe` [[B]]
       it "And a sequence of terms is recognised" $ do
-        Parser.parse terms "aabbb" `shouldBe` [[Parser.A, Parser.B]]
-        Parser.parse terms "bbbaa" `shouldBe` [[Parser.B, Parser.A]]
+        Parser.parse terms "aabbb" `shouldBe` [[A, B]]
+        Parser.parse terms "bbbaa" `shouldBe` [[B, A]]
     describe "Given a map of ambiguous terms and an input text containing the terms" $ do
       let
         terms =
-          Map.insert "a" Parser.A $
-            Map.insert "aa" Parser.AA Map.empty
+          Map.insert "a" A $
+            Map.insert "aa" AA Map.empty
       it "Then the parser outputs all possible interpretations" $ do
-        Parser.parse terms "aa" `shouldBe` [[Parser.A, Parser.A], [Parser.AA]]
+        Parser.parse terms "aa" `shouldBe` [[A, A], [AA]]
