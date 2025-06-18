@@ -66,7 +66,10 @@ parseTextSpec =
     describe "Given a map of ambiguous terms and an input text containing the terms" $ do
       let
         terms =
-          Map.insert "a" A $
-            Map.insert "aa" AA Map.empty
+          Map.insert "b" B $
+            Map.insert "a" A $
+              Map.insert "aa" AA Map.empty
       it "Then the parser outputs all possible interpretations" $ do
         Parser.parse terms "aa" `shouldBe` [[A, A], [AA]]
+        Parser.parse terms "baa" `shouldBe` [[B, A, A], [B, AA]]
+        Parser.parse terms "aab" `shouldBe` [[A, A, B], [AA, B]]
