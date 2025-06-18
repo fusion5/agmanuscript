@@ -49,7 +49,7 @@ parseTextSpec =
   do
     describe "Given a map of unambiguous terms and an input text containing the terms" $ do
       let
-        terms = Map.insert "aa" [Parser.A] $ Map.insert "bbb" [Parser.B] Map.empty
+        terms = Map.insert "aa" Parser.A $ Map.insert "bbb" Parser.B Map.empty
       it "Then the empty string is recognised but doesn't produce tokens" $ do
         Parser.parse terms "" `shouldBe` [[]]
       it "Then something not in the map is not recognised" $ do
@@ -63,7 +63,7 @@ parseTextSpec =
     describe "Given a map of ambiguous terms and an input text containing the terms" $ do
       let
         terms =
-          Map.insert "a" [Parser.A] $
-            Map.insert "aa" [Parser.AA] Map.empty
+          Map.insert "a" Parser.A $
+            Map.insert "aa" Parser.AA Map.empty
       it "Then the parser outputs all possible interpretations" $ do
         Parser.parse terms "aa" `shouldBe` [[Parser.A, Parser.A], [Parser.AA]]

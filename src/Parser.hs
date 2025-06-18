@@ -7,7 +7,7 @@ import qualified Data.Map as Map
 data Token = A | B | AA | AAA
   deriving (Show, Eq)
 
-parse :: Map.Map String [Token] -> String -> [[Token]]
+parse :: Map.Map String Token -> String -> [[Token]]
 parse dict = map snd . just (many $ dictionary dict)
 
 -- Keeps only results that no longer present any remaining input
@@ -53,21 +53,21 @@ alts = foldl (Parser.<|>) mempty
 dictionaryToAlts :: Map.Map String a -> [Parser Char a]
 dictionaryToAlts = map (uncurry keywordToken) . Map.toList
 
-dictionary :: Map.Map String [Token] -> Parser Char [Token]
-dictionary = alts . dictionaryToAlts
+dictionary :: Map.Map String Token -> Parser Char [Token]
+dictionary = alts . dictionaryToAlts . Map.map pure
 
 -- >>> _test4 "aab"
 -- [("",[A,A,B]),("b",[A,A]),("ab",[A]),("",[AA,B]),("b",[AA]),("aab",[])]
 _test4 :: Parser Char [Token]
 _test4 = many (dictionary testTerms)
  where
-  testTerms :: Map.Map String [Token]
+  testTerms :: Map.Map String Token
   testTerms =
     Map.fromList
-      [ ("a", pure A)
-      , ("aa", pure AA)
-      , ("aaa", pure AAA)
-      , ("b", pure B)
+      [ ("a", A)
+      , ("aa", AA)
+      , ("aaa", AAA)
+      , ("b", B)
       ]
 
 -- >>> test1 "ab"
