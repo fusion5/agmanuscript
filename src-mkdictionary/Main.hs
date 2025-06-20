@@ -28,8 +28,9 @@ cliArgs =
           <> Opt.value ".xml"
       )
 
--- | Outputs to stdout the serialised dictionary built from the TEI.2 XML input
--- parameters given through the CLI
+{- | Outputs to stdout the serialised dictionary built from the TEI.2 XML input
+parameters given through the CLI
+-}
 main :: IO ()
 main =
   do
