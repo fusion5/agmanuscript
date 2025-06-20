@@ -58,7 +58,8 @@ tests:
     main: MainTest
     source-dirs: 
       - test
-      - src
+      # - src
     dependencies:
       - hspec
+      - ancientgreek
       - quickcheck-instances

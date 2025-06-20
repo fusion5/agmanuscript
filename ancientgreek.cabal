@@ -100,15 +100,9 @@ test-suite ancientgreek-test
   type: exitcode-stdio-1.0
   main-is: MainTest.hs
   other-modules:
-      Common
-      Dictionary.Types
-      MakeDictionary
-      MakeDictionary.Internal
-      Parser
       Paths_ancientgreek
   hs-source-dirs:
       test
-      src
   default-extensions:
       DataKinds
       DeriveGeneric
@@ -121,7 +115,8 @@ test-suite ancientgreek-test
       TypeApplications
   ghc-options: -Wall -Werror -Wno-orphans -main-is MainTest
   build-depends:
-      base
+      ancientgreek
+    , base
     , binary
     , bytestring
     , cereal
