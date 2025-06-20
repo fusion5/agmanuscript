@@ -22,14 +22,14 @@ import qualified Text.XML.Stream.Parse as XML
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 
 -- Parses <entryFree>...</entryFree>
-parseEntry :: Conduit XMLStream.Event Entry (Maybe ())
+parseEntry :: Conduit XMLStream.Event (Entry Term) (Maybe ())
 parseEntry = XML.tag' "entryFree" attributes entryTag
  where
   attributes =
     (,) <$> XML.requireAttr "key" <*> XML.requireAttr "type" <* XML.ignoreAttrs
   entryTag (key, "main") =
     void $
-      C.mapOutput (Entry key) $
+      C.mapOutput (Entry (Term key)) $
         XML.many' $
           XML.tagIgnoreAttrs "sense" $
             XML.many' (contentRec >>= (C.yield . Translation) >> pure Nothing)
@@ -42,7 +42,7 @@ contentRec =
     <$> XML.many'
       (XML.tagIgnoreAttrs XML.anyName contentRec `XML.orE` XML.contentMaybe)
 
-selectDepth :: Conduit XMLStream.Event Entry ()
+selectDepth :: Conduit XMLStream.Event (Entry Term) ()
 selectDepth =
   void $
     XML.tagIgnoreAttrs "TEI.2" $
@@ -54,7 +54,7 @@ selectDepth =
                 XML.tagIgnoreAttrs "div0" $
                   XML.many' parseEntry
 
-processFile :: FilePath -> Conduit a Entry ()
+processFile :: FilePath -> Conduit a (Entry Term) ()
 processFile inputPath
   | File.takeExtension inputPath == ".xml" =
       C.sourceFile inputPath .| XML.parseBytes XML.def .| selectDepth

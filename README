@@ -1,7 +1,7 @@
 Ancient greek interpreter helper
 
 Formatting: 
-    fourmolu --mode-inplace .
+    fourmolu --mode inplace .
 
 2025-02-08
 
@@ -18,9 +18,13 @@ Refactor modules, add fourmolu formatter.
 
 Define a simple parser model and some tests for it.
 
+2025-06-20 
+
+Fix the parser model and make the tests pass. Write more tests.
+
 TODO:
 
-Fix the parser model and make the tests pass. Write more tests
+Define the input file format
 Make the parser efficient
 Benchmark serialisation to ensure that it runs in constant memory
 Consider simple-pipe also, there is xml-pipe.

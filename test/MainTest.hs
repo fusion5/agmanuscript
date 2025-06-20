@@ -38,10 +38,10 @@ dictionaryParseSpec :: Spec
 dictionaryParseSpec = describe "TEI format dictionary parsing" $ do
   it "Parse entryFree0.xml" $ do
     testOnFile "./test-data/entryFree0.xml" (void MD.parseEntry)
-      `shouldReturn` [Dictionary.Entry "key1" (Dictionary.Translation "translation1")]
+      `shouldReturn` [Dictionary.Entry (Dictionary.Term "key1") (Dictionary.Translation "translation1")]
   it "Parse entryFree1.xml" $ do
     testOnFile "./test-data/entryFree1.xml" (void $ many' MD.parseEntry)
-      `shouldReturn` [Dictionary.Entry "key1" (Dictionary.Translation "translation1")]
+      `shouldReturn` [Dictionary.Entry (Dictionary.Term "key1") (Dictionary.Translation "translation1")]
 
 data Token = A | B | AA | AAA
   deriving (Show, Eq)

@@ -1,6 +1,8 @@
 module Dictionary.Types (
   Entry (..),
   Translation (..),
+  Term (..),
+  NormalisedTerm (..),
 )
 where
 
@@ -13,8 +15,17 @@ import qualified Data.Serialize as Ser
 newtype Translation = Translation Text
   deriving (Eq, Show, Generic)
 
-data Entry = Entry Text Translation
+-- | Term containing betacode content
+newtype Term = Term Text
+  deriving (Eq, Show, Generic)
+
+-- | Same as Term but betacode is mapped to ascii (latin) because accents are hard...
+newtype NormalisedTerm = NormalisedTerm Text
+  deriving (Eq, Show, Generic)
+
+data Entry a = Entry a Translation
   deriving (Eq, Show, Generic)
 
 instance Ser.Serialize Translation
-instance Ser.Serialize Entry
+instance Ser.Serialize Term
+instance (Ser.Serialize a) => Ser.Serialize (Entry a)
