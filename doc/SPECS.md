@@ -433,7 +433,9 @@ BETACODE_MAP = {
 
 Here are some notes about the content and format of the "A Greek-English Lexicon" (Liddell & Scott, 1940) you could find in the [Perseus repository][1].
 
-File `_map.py` is a part of the Python library [betacode][2]. Greek text coding standart in the Perseus repository differs from the [TLG Beta Code Manual][3], so one need substitute mapping table with our variant based on the [Greek Betacode to Unicode Transformations][4] guide.
+File `_map.py` is a part of the Python library [betacode][2]. Greek text coding standart in the 
+Perseus repository differs from the [TLG Beta Code Manual][3], so one need substitute mapping 
+table with our variant based on the [Greek Betacode to Unicode Transformations][4] guide.
 
 [1]: https://github.com/PerseusDL/lexica/tree/master/CTS_XML_TEI/perseus/pdllex/grc/lsj
 [2]: https://github.com/matgrioni/betacode

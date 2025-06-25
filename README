@@ -22,9 +22,13 @@ Define a simple parser model and some tests for it.
 
 Fix the parser model and make the tests pass. Write more tests.
 
+2025-06-25
+
 TODO:
 
-Define the input file format
+Try to normalise dictionary terms from betacode to Roman alphabet, this means that
+  normalised terms will have more meanings...
+keep only the roman characters and strip out anything else which would generate accents.
 Make the parser efficient
 Benchmark serialisation to ensure that it runs in constant memory
 Consider simple-pipe also, there is xml-pipe.

@@ -16,6 +16,7 @@ import qualified Data.Map as Map
 import qualified Dictionary.Types as Dictionary
 import qualified MakeDictionary as MD
 import qualified Parser
+import qualified Dictionary.BetaConv as BetaConv
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 
@@ -33,6 +34,7 @@ main = hspec $
   do
     dictionaryParseSpec
     parseTextSpec
+    betaconvSpec
 
 dictionaryParseSpec :: Spec
 dictionaryParseSpec = describe "TEI format dictionary parsing" $ do
@@ -77,3 +79,9 @@ parseTextSpec = describe "Text parsing" $ do
       Parser.parse terms "aa" `shouldBe` [[A, A], [AA]]
       Parser.parse terms "baa" `shouldBe` [[B, A, A], [B, AA]]
       Parser.parse terms "aab" `shouldBe` [[A, A, B], [AA, B]]
+
+betaconvSpec :: Spec
+betaconvSpec = do
+  describe "Betacode conversion" $ do
+    it "Any betacode word should be correctly translated to the Roman alphabet" $ do
+      BetaConv.betacodeToRoman "e(/kaston" `shouldBe` "ekaston"
