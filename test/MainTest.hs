@@ -13,10 +13,10 @@ import Prelude
 
 import qualified Conduit as C
 import qualified Data.Map as Map
-import qualified Dictionary.Types as Dictionary
+import qualified Dictionary.BetaConv as BetaConv
+import qualified Dictionary.Types as D
 import qualified MakeDictionary as MD
 import qualified Parser
-import qualified Dictionary.BetaConv as BetaConv
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 
@@ -40,15 +40,15 @@ dictionaryParseSpec :: Spec
 dictionaryParseSpec = describe "TEI format dictionary parsing" $ do
   it "Parse entryFree0.xml" $ do
     testOnFile "./test-data/entryFree0.xml" (void MD.parseEntry)
-      `shouldReturn` [ Dictionary.Entry
-                        (Dictionary.Term "key1")
-                        (Dictionary.Translation "translation1")
+      `shouldReturn` [ D.Entry
+                        (D.BetacodeTerm "key1")
+                        (D.Translation "translation1")
                      ]
   it "Parse entryFree1.xml" $ do
     testOnFile "./test-data/entryFree1.xml" (void $ many' MD.parseEntry)
-      `shouldReturn` [ Dictionary.Entry
-                        (Dictionary.Term "key1")
-                        (Dictionary.Translation "translation1")
+      `shouldReturn` [ D.Entry
+                        (D.BetacodeTerm "key1")
+                        (D.Translation "translation1")
                      ]
 
 data Token = A | B | AA | AAA
@@ -84,4 +84,6 @@ betaconvSpec :: Spec
 betaconvSpec = do
   describe "Betacode conversion" $ do
     it "Any betacode word should be correctly translated to the Roman alphabet" $ do
-      BetaConv.betacodeToRoman "e(/kaston" `shouldBe` "ekaston"
+      BetaConv.betacodeToNormalEntry
+        (D.Entry (D.BetacodeTerm "e(/kaston") (D.Translation ""))
+        `shouldBe` D.Entry (D.NormalisedTerm "ekaston") (D.Translation "")

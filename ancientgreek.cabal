@@ -23,7 +23,10 @@ library
       src
   default-extensions:
       DataKinds
+      DeriveFunctor
       DeriveGeneric
+      GeneralizedNewtypeDeriving
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       QuasiQuotes
@@ -43,6 +46,7 @@ library
     , directory
     , extra
     , filepath
+    , hashable
     , haskell-say
     , interpolatedstring-perl6
     , mtl
@@ -51,20 +55,24 @@ library
     , text
     , transformers
     , type-natural
+    , unordered-containers
     , vector
     , xml-conduit
     , xml-types
   default-language: Haskell2010
 
-executable mkdictionary
+executable agparser
   main-is: Main.hs
   other-modules:
       Paths_ancientgreek
   hs-source-dirs:
-      src-mkdictionary
+      src-agparser
   default-extensions:
       DataKinds
+      DeriveFunctor
       DeriveGeneric
+      GeneralizedNewtypeDeriving
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       QuasiQuotes
@@ -85,6 +93,7 @@ executable mkdictionary
     , directory
     , extra
     , filepath
+    , hashable
     , haskell-say
     , interpolatedstring-perl6
     , mtl
@@ -93,6 +102,54 @@ executable mkdictionary
     , text
     , transformers
     , type-natural
+    , unordered-containers
+    , vector
+    , xml-conduit
+    , xml-types
+  default-language: Haskell2010
+
+executable mkdictionary
+  main-is: Main.hs
+  other-modules:
+      Paths_ancientgreek
+  hs-source-dirs:
+      src-mkdictionary
+  default-extensions:
+      DataKinds
+      DeriveFunctor
+      DeriveGeneric
+      GeneralizedNewtypeDeriving
+      ImportQualifiedPost
+      LambdaCase
+      OverloadedStrings
+      QuasiQuotes
+      RecordWildCards
+      ScopedTypeVariables
+      StrictData
+      TypeApplications
+  ghc-options: -Wall -Werror -Wno-orphans
+  build-depends:
+      ancientgreek
+    , base
+    , binary
+    , bytestring
+    , cereal
+    , cereal-text
+    , conduit
+    , containers
+    , directory
+    , extra
+    , filepath
+    , hashable
+    , haskell-say
+    , interpolatedstring-perl6
+    , mtl
+    , optparse-applicative
+    , safe-decimal
+    , text
+    , transformers
+    , type-natural
+    , unordered-containers
     , vector
     , xml-conduit
     , xml-types
@@ -107,7 +164,10 @@ test-suite ancientgreek-test
       test
   default-extensions:
       DataKinds
+      DeriveFunctor
       DeriveGeneric
+      GeneralizedNewtypeDeriving
+      ImportQualifiedPost
       LambdaCase
       OverloadedStrings
       QuasiQuotes
@@ -128,6 +188,7 @@ test-suite ancientgreek-test
     , directory
     , extra
     , filepath
+    , hashable
     , haskell-say
     , hspec
     , interpolatedstring-perl6
@@ -138,6 +199,7 @@ test-suite ancientgreek-test
     , text
     , transformers
     , type-natural
+    , unordered-containers
     , vector
     , xml-conduit
     , xml-types

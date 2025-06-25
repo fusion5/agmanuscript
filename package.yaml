@@ -3,7 +3,10 @@ version: 0.0.1
 
 default-extensions: 
   - DataKinds
+  - DeriveFunctor
   - DeriveGeneric
+  - GeneralizedNewtypeDeriving
+  - ImportQualifiedPost
   - LambdaCase
   - OverloadedStrings
   - QuasiQuotes
@@ -23,6 +26,7 @@ dependencies:
   - directory
   - extra
   - filepath
+  - hashable
   - haskell-say
   - interpolatedstring-perl6
   - mtl
@@ -32,6 +36,7 @@ dependencies:
   - transformers
   - transformers
   - type-natural
+  - unordered-containers
   - vector
   - xml-conduit
   - xml-types
@@ -50,6 +55,12 @@ executables:
     main: Main.hs
     source-dirs: 
       - src-mkdictionary
+    dependencies:
+      - ancientgreek
+  agparser:
+    main: Main.hs
+    source-dirs: 
+      - src-agparser
     dependencies:
       - ancientgreek
 
