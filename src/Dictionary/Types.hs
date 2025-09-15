@@ -14,7 +14,7 @@ import Data.String
 
 import qualified Data.Serialize as Ser
 
-newtype Translation = Translation BetacodeTerm
+newtype Translation = Translation Text
   deriving (Eq, Show, Generic, Hashable)
 
 -- | Term containing betacode content. Example betacode word:

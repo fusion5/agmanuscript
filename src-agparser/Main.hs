@@ -22,7 +22,7 @@ main :: IO ()
 main =
   do
     CLIArgs{..} <- Opt.execParser cliOpts
-    putStrLn "I'm the Ancient Greek text parser!"
+    putStrLn "I'm the Ancient Greek text parser and translator!"
     exists <- Dir.doesFileExist dictionaryFile
     unless exists $
       error

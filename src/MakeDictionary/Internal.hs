@@ -32,7 +32,7 @@ parseEntry = XML.tag' "entryFree" attributes entryTag
       C.mapOutput (Entry (BetacodeTerm key)) $
         XML.many' $
           XML.tagIgnoreAttrs "sense" $
-            XML.many' (contentRec >>= (C.yield . Translation . BetacodeTerm) >> pure Nothing)
+            XML.many' (contentRec >>= (C.yield . Translation) >> pure Nothing)
   entryTag _ = void $ XML.many' (XML.ignoreTree XML.anyName XML.ignoreAttrs)
 
 -- | Returns all content, concatenated, recursively
