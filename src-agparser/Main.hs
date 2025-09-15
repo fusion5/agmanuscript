@@ -27,6 +27,7 @@ main =
     unless exists $
       error
         [qq|The given dictionary file $dictionaryFile is not accessible|]
+    -- Open the file
 
  where
   cliOpts = Opt.info (cliArgs Opt.<**> Opt.helper) Opt.fullDesc

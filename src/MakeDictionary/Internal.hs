@@ -10,7 +10,6 @@ where
 
 import Common
 import Conduit ((.|))
-import Data.Serialize.Text ()
 import Data.Text as T
 import Dictionary.Types
 
@@ -21,7 +20,7 @@ import qualified Text.XML.Stream.Parse as XML
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 
--- Parses <entryFree>...</entryFree>
+-- | Parses <entryFree>...</entryFree>
 parseEntry :: Conduit XMLStream.Event (Entry BetacodeTerm) (Maybe ())
 parseEntry = XML.tag' "entryFree" attributes entryTag
  where
