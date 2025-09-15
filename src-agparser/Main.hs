@@ -1,5 +1,9 @@
 module Main (main) where
 
+data CLIArgs = CLIArgs
+  { dictionaryFile :: FilePath
+  }
+
 main :: IO ()
 main =
   do

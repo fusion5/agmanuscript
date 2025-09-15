@@ -28,10 +28,12 @@ Try to normalise dictionary terms from betacode to Roman alphabet, this means th
   normalised terms will have more meanings...
 Keep only the roman characters and strip out anything else which would generate accents.
 
-TODO:
+2025-09-15
 
 Create text parser with text input and dictionary input. Output debugging result to stdout.
+
+TODO:
+
 Make the parser efficient
 Benchmark serialisation to ensure that it runs in constant memory
 Consider simple-pipe also, there is xml-pipe.
-Generate a Dictionary type of type Term -> [Definitions] from XML.
