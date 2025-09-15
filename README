@@ -30,10 +30,13 @@ Keep only the roman characters and strip out anything else which would generate 
 
 2025-09-15
 
-Create text parser with text input and dictionary input. Output debugging result to stdout.
+Create dictionary deserialiser
 
 TODO:
 
+Fix the dictionary deserialiser. Possibly modify the serialiser to match.
+Integration test for round-trip serialisation and deserialisation of arbitrary dictionary entries.
+Created text parser with text input and dictionary input. Output debugging result to stdout.
 Make the parser efficient
 Benchmark serialisation to ensure that it runs in constant memory
 Consider simple-pipe also, there is xml-pipe.
