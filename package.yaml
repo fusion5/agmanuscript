@@ -1,4 +1,4 @@
-name: ancientgreek
+name: ancientgreek-lib
 version: 0.0.1
 
 default-extensions: 
@@ -56,13 +56,13 @@ executables:
     source-dirs: 
       - src-mkdictionary
     dependencies:
-      - ancientgreek
+      - ancientgreek-lib
   agparser:
     main: Main.hs
     source-dirs: 
       - src-agparser
     dependencies:
-      - ancientgreek
+      - ancientgreek-lib
 
 tests:
   ancientgreek-test:
@@ -72,5 +72,5 @@ tests:
       # - src
     dependencies:
       - hspec
-      - ancientgreek
+      - ancientgreek-lib
       - quickcheck-instances
