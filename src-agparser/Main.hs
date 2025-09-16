@@ -2,19 +2,12 @@ module Main (main) where
 
 import Common
 import Conduit ((.|))
--- TODO: don't import MakeDictionary in a place where we only have to read the dictionary
-
-import Data.ByteString
-import Dictionary.Types
-import MakeDictionary.Internal
-import Prelude
-
 import Conduit qualified as C
-import Data.Conduit.List qualified as CL
+import Dictionary.Types
 import Options.Applicative qualified as Opt
 import System.Directory qualified as Dir
-
-import Data.Serialize qualified as Ser
+import Prelude
+import Data.Conduit.Serialization.Binary
 
 newtype CLIArgs = CLIArgs
   { dictionaryFile :: FilePath
@@ -29,14 +22,6 @@ cliArgs =
           <> Opt.help "Dictionary file in Haskell serialised format"
       )
 
-deserialiseEntry :: Conduit ByteString (Entry BetacodeTerm) ()
-deserialiseEntry =
-  CL.map
-    ( \line -> case Ser.runGet Ser.get line of
-        Left err -> error [qq|Deserialisation error for line $line: $err|]
-        Right ok -> ok
-    )
-
 main :: IO ()
 main =
   do
@@ -48,7 +33,7 @@ main =
         [qq|The given dictionary file $dictionaryFile is not accessible|]
     C.runConduitRes $
       C.sourceFile dictionaryFile
-        .| C.lineAsciiC deserialiseEntry
+        .| conduitDecode @(Entry BetacodeTerm)
         .| C.printC
  where
   -- Open the file

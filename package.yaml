@@ -40,6 +40,7 @@ dependencies:
   - vector
   - xml-conduit
   - xml-types
+  - binary-conduit
 
 ghc-options:
   - -Wall
@@ -63,6 +64,7 @@ executables:
       - src-agparser
     dependencies:
       - ancientgreek-lib
+      - binary-conduit
 
 tests:
   ancientgreek-test:

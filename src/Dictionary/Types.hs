@@ -11,6 +11,7 @@ import Data.Serialize.Text ()
 import Data.Text
 import Data.Hashable
 import Data.String
+import Data.Binary
 
 import qualified Data.Serialize as Ser
 
@@ -32,6 +33,10 @@ newtype NormalisedTerm = NormalisedTerm Text
 
 data Entry a = Entry a Translation
   deriving (Eq, Show, Generic, Functor)
+
+instance Binary Translation
+instance Binary BetacodeTerm
+instance Binary a => Binary (Entry a)
 
 instance Ser.Serialize Translation
 instance Ser.Serialize BetacodeTerm

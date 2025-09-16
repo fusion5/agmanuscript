@@ -3,6 +3,14 @@ Ancient greek interpreter helper
 Formatting: 
     fourmolu --mode inplace .
 
+Usage:
+
+Generate the dictionary in serialised format:
+
+```
+cabal run mkdictionary -- --path $dict_path/CTS_XML_TEI/perseus/pdllex/grc/lsj/ > dictionary.bin
+```
+
 2025-02-08
 
 2025-03-15
@@ -32,11 +40,15 @@ Keep only the roman characters and strip out anything else which would generate 
 
 Create dictionary deserialiser
 
+2025-09-15
+
+Fix the dictionary deserialiser. Possibly modify the serialiser to match. Using binary-conduit 
+    seems to work for now.
+
 TODO:
 
-Fix the dictionary deserialiser. Possibly modify the serialiser to match.
-Integration test for round-trip serialisation and deserialisation of arbitrary dictionary entries.
-Created text parser with text input and dictionary input. Output debugging result to stdout.
+Integration test for round-trip serialisation and deserialisation of arbitrary dictionary entries
+Create text parser with text input and dictionary input. Output debugging result to stdout
 Make the parser efficient
 Benchmark serialisation to ensure that it runs in constant memory
-Consider simple-pipe also, there is xml-pipe.
+Consider simple-pipe also, there is xml-pipe

@@ -38,6 +38,7 @@ library
   build-depends:
       base
     , binary
+    , binary-conduit
     , bytestring
     , cereal
     , cereal-text
@@ -85,6 +86,7 @@ executable agparser
       ancientgreek-lib
     , base
     , binary
+    , binary-conduit
     , bytestring
     , cereal
     , cereal-text
@@ -132,6 +134,7 @@ executable mkdictionary
       ancientgreek-lib
     , base
     , binary
+    , binary-conduit
     , bytestring
     , cereal
     , cereal-text
@@ -180,6 +183,7 @@ test-suite ancientgreek-test
       ancientgreek-lib
     , base
     , binary
+    , binary-conduit
     , bytestring
     , cereal
     , cereal-text

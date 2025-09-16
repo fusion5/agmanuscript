@@ -4,17 +4,18 @@ module MakeDictionary (
 ) where
 
 import Conduit ((.|))
+import Conduit qualified as C
+-- import Data.Binary.Builder
+import Data.Conduit.Combinators qualified as C
+-- import Data.Conduit.List qualified as CL
+-- import Data.Serialize qualified as Ser
 import Data.Serialize.Text ()
 import MakeDictionary.Internal
 import Prelude
+import Data.Conduit.Serialization.Binary
 
-import qualified Conduit as C
-import qualified Data.ByteString.Lazy as BSL
-import qualified Data.Conduit.List as CL
-import qualified Data.Serialize as Ser
-
-serialise :: (Ser.Serialize a) => Conduit a BSL.ByteString ()
-serialise = CL.map $ Ser.runPutLazy . Ser.put
+-- serialise :: (Ser.Serialize a) => Conduit a Builder ()
+-- serialise = CL.map $ Ser.execPut . Ser.put
 
 -- | Outputs to stdout the dictionary in serialised format
 traverseDictionaryDir :: FilePath -> IO ()
@@ -24,5 +25,7 @@ traverseDictionaryDir inputDirectory =
   C.runConduitRes $
     C.sourceDirectory inputDirectory
       .| C.awaitForever processFile
-      .| serialise
-      .| C.printC
+      -- .| serialise
+      -- .| C.builderToByteString
+      .| conduitEncode
+      .| C.stdout
