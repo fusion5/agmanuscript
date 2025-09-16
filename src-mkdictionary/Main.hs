@@ -8,7 +8,8 @@ import qualified Options.Applicative as Opt
 import qualified System.Directory as Dir
 
 data CLIArgs = CLIArgs
-  { dictionaryInDirectory :: FilePath
+  { dictionaryInputDirectory :: FilePath
+  , dictionaryOutputFile :: FilePath
   , fileExtension :: String
   }
   deriving (Show)
@@ -17,9 +18,14 @@ cliArgs :: Opt.Parser CLIArgs
 cliArgs =
   CLIArgs
     <$> Opt.strOption
-      ( Opt.long "path"
+      ( Opt.long "input-path"
           <> Opt.metavar "DIR"
           <> Opt.help "Directory of input dictionary files in TEI.2 XML format"
+      )
+    <*> Opt.strOption
+      ( Opt.long "output-file"
+          <> Opt.metavar "FILE"
+          <> Opt.help "Output file (in binary, serialised format) which can be passed to agparser"
       )
     <*> Opt.strOption
       ( Opt.long "extension"
@@ -35,10 +41,10 @@ main :: IO ()
 main =
   do
     CLIArgs{..} <- Opt.execParser cliOpts
-    exists <- Dir.doesDirectoryExist dictionaryInDirectory
+    exists <- Dir.doesDirectoryExist dictionaryInputDirectory
     unless exists $
       error
-        [qq|The given directory path $dictionaryInDirectory is not accessible|]
-    Dict.traverseDictionaryDir dictionaryInDirectory
+        [qq|The given directory path $dictionaryInputDirectory is not accessible|]
+    Dict.traverseDictionaryDir dictionaryInputDirectory dictionaryOutputFile
  where
   cliOpts = Opt.info (cliArgs Opt.<**> Opt.helper) Opt.fullDesc

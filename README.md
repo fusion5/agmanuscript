@@ -8,7 +8,9 @@ Usage:
 Generate the dictionary in serialised format:
 
 ```
-cabal run mkdictionary -- --path $dict_path/CTS_XML_TEI/perseus/pdllex/grc/lsj/ > dictionary.bin
+cabal run mkdictionary -- \
+    --input-path $dict_path/CTS_XML_TEI/perseus/pdllex/grc/lsj/ \
+    --output-file dictionary.bin
 ```
 
 2025-02-08
