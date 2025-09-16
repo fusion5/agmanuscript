@@ -1,17 +1,24 @@
-Ancient greek interpreter helper
-
-Formatting: 
-    fourmolu --mode inplace .
+# Ancient greek interpreter helper
 
 Usage:
 
-Generate the dictionary in serialised format:
+First, generate the dictionary in serialised format:
 
 ```
 cabal run mkdictionary -- \
     --input-path $dict_path/CTS_XML_TEI/perseus/pdllex/grc/lsj/ \
     --output-file dictionary.bin
 ```
+
+## Development guidelines
+
+### Formatting: 
+
+```
+fourmolu --mode inplace .
+```
+
+## Changelog
 
 2025-02-08
 
@@ -47,7 +54,7 @@ Create dictionary deserialiser
 Fix the dictionary deserialiser. Possibly modify the serialiser to match. Using binary-conduit 
     seems to work for now.
 
-TODO:
+## TODO:
 
 Integration test for round-trip serialisation and deserialisation of arbitrary dictionary entries
 Create text parser with text input and dictionary input. Output debugging result to stdout

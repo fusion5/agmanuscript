@@ -3,9 +3,9 @@ module Main (main) where
 import Common
 import Prelude
 
-import qualified MakeDictionary as Dict
-import qualified Options.Applicative as Opt
-import qualified System.Directory as Dir
+import MakeDictionary qualified as Dict
+import Options.Applicative qualified as Opt
+import System.Directory qualified as Dir
 
 data CLIArgs = CLIArgs
   { dictionaryInputDirectory :: FilePath

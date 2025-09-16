@@ -11,12 +11,12 @@ import Test.QuickCheck.Instances.Natural ()
 import Text.XML.Stream.Parse
 import Prelude
 
-import qualified Conduit as C
-import qualified Data.Map as Map
-import qualified Dictionary.BetaConv as BetaConv
-import qualified Dictionary.Types as D
-import qualified MakeDictionary as MD
-import qualified Parser
+import Conduit qualified as C
+import Data.Map qualified as Map
+import Dictionary.BetaConv qualified as BetaConv
+import Dictionary.Types qualified as D
+import MakeDictionary qualified as MD
+import Parser qualified
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 

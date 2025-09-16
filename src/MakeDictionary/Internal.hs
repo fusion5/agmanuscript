@@ -13,10 +13,10 @@ import Conduit ((.|))
 import Data.Text as T
 import Dictionary.Types
 
-import qualified Conduit as C
-import qualified Data.XML.Types as XMLStream
-import qualified System.FilePath as File
-import qualified Text.XML.Stream.Parse as XML
+import Conduit qualified as C
+import Data.XML.Types qualified as XMLStream
+import System.FilePath qualified as File
+import Text.XML.Stream.Parse qualified as XML
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 

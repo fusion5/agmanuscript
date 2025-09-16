@@ -3,11 +3,11 @@ module Main (main) where
 import Common
 import Conduit ((.|))
 import Conduit qualified as C
+import Data.Conduit.Serialization.Binary
 import Dictionary.Types
 import Options.Applicative qualified as Opt
 import System.Directory qualified as Dir
 import Prelude
-import Data.Conduit.Serialization.Binary
 
 newtype CLIArgs = CLIArgs
   { dictionaryFile :: FilePath

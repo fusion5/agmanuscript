@@ -2,7 +2,7 @@ module Parser (parse) where
 
 import Data.List (stripPrefix)
 
-import qualified Data.Map as Map
+import Data.Map qualified as Map
 
 type Parser result = String -> [(String, result)]
 
