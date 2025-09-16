@@ -12,7 +12,7 @@ import Text.XML.Stream.Parse
 import Prelude
 
 import Conduit qualified as C
-import Data.Map qualified as Map
+import Data.HashMap.Strict qualified as Map
 import Dictionary.BetaConv qualified as BetaConv
 import Dictionary.Types qualified as D
 import MakeDictionary qualified as MD

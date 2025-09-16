@@ -1,14 +1,13 @@
 module Parser (parse) where
 
+import Data.HashMap.Strict qualified as M
 import Data.List (stripPrefix)
-
-import Data.Map qualified as Map
 
 type Parser result = String -> [(String, result)]
 
 -- Given a map of terms and symbols, generate all possible parsings of the given string (the
 -- map defines a regular language of a repeating sequence of terms)
-parse :: Map.Map String result -> String -> [[result]]
+parse :: M.HashMap String result -> String -> [[result]]
 parse dict = map snd . just (many $ dictionary dict)
 
 -- Keeps only results that no longer present any remaining input
@@ -27,6 +26,7 @@ keywordToken prefix newSymbol xs =
 alternative :: Parser a -> Parser a -> Parser a
 alternative p1 p2 xs = p1 xs ++ p2 xs
 
+-- toucapaiguptouprosfqeg
 -- | 0..n occurences of the parser
 many :: Parser symbol -> Parser [symbol]
 many p = (p `parserSequencing` many p) `alternative` succeed []
@@ -41,8 +41,8 @@ many p = (p `parserSequencing` many p) `alternative` succeed []
 alts :: [Parser symbol] -> Parser symbol
 alts = foldl alternative mempty
 
-dictionaryToAlts :: Map.Map String symbol -> [Parser symbol]
-dictionaryToAlts = map (uncurry keywordToken) . Map.toList
+dictionaryToAlts :: M.HashMap String symbol -> [Parser symbol]
+dictionaryToAlts = map (uncurry keywordToken) . M.toList
 
-dictionary :: Map.Map String symbol -> Parser symbol
+dictionary :: M.HashMap String symbol -> Parser symbol
 dictionary = alts . dictionaryToAlts

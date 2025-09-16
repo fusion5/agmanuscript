@@ -9,11 +9,8 @@ where
 import Common
 import Data.Binary
 import Data.Hashable
-import Data.Serialize.Text ()
 import Data.String
 import Data.Text
-
-import Data.Serialize qualified as Ser
 
 newtype Translation = Translation Text
   deriving (Eq, Show, Generic, Hashable)
@@ -30,16 +27,15 @@ instance IsString BetacodeTerm where
 {- | Same as BetacodeTerm but betacode is mapped to ascii (latin) because accents are hard...
 Example betacode term: 'iakunqotrofos'
 -}
-newtype NormalisedTerm = NormalisedTerm Text
+newtype NormalisedTerm = NormalisedTerm { unNormalisedTerm :: Text }
   deriving (Eq, Show, Generic, Hashable)
 
-data Entry a = Entry a Translation
+data Entry a = Entry
+  { entryTerm :: a
+  , entryDefinition :: Translation
+  }
   deriving (Eq, Show, Generic, Functor)
 
 instance Binary Translation
 instance Binary BetacodeTerm
 instance (Binary a) => Binary (Entry a)
-
-instance Ser.Serialize Translation
-instance Ser.Serialize BetacodeTerm
-instance (Ser.Serialize a) => Ser.Serialize (Entry a)

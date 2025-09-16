@@ -54,10 +54,16 @@ Create dictionary deserialiser
 Fix the dictionary deserialiser. Possibly modify the serialiser to match. Using binary-conduit 
     seems to work for now.
 
+Create text parser with text input and dictionary input. Output debugging result to stdout
+
+Getting some results, but a phrase from the original text is not
+present. Add some more dictionary commands to be able to decipher meaning
+of individual words. There could be some discrepancy between the alphabet
+used and the betacode normalised to latin chars. Find out what that is.
+
 ## TODO:
 
 Integration test for round-trip serialisation and deserialisation of arbitrary dictionary entries
-Create text parser with text input and dictionary input. Output debugging result to stdout
 Make the parser efficient
 Benchmark serialisation to ensure that it runs in constant memory
 Consider simple-pipe also, there is xml-pipe
