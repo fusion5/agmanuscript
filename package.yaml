@@ -49,7 +49,7 @@ ghc-options:
 
 library:
   source-dirs: 
-    - src
+    - src-lib
 
 executables:
   mkdictionary:

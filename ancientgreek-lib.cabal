@@ -20,7 +20,7 @@ library
   other-modules:
       Paths_ancientgreek_lib
   hs-source-dirs:
-      src
+      src-lib
   default-extensions:
       DataKinds
       DeriveFunctor

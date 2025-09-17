@@ -5,15 +5,13 @@ import Conduit ((.|))
 import Conduit qualified as C
 import Data.Conduit.Serialization.Binary
 import Data.HashMap.Strict qualified as M
-import Data.Hashable
-import Data.List qualified as L
-import Dictionary.BetaConv qualified as BetaConv
 import Dictionary.Types
 import Options.Applicative qualified as Opt
 import System.Directory qualified as Dir
 import Prelude
 import Data.Text (unpack)
 import Parser qualified
+import Dictionary
 
 data CLIArgs = CLIArgs
   { inputDictionaryFile :: FilePath
@@ -51,32 +49,22 @@ main =
           .| conduitDecode @(Entry BetacodeTerm)
           .| C.sinkList
     let
-      normalEntries = map toPair entries
-      normalMap = group normalEntries
+      normalMap = convertEntries entries
+      parserMap = M.mapKeys (unpack . unNormalisedTerm) normalMap
     putStrLn [qq|{length entries} dictionary entries loaded (betacode).|]
     putStrLn [qq|{M.size normalMap} dictionary entries (normalised).|]
     inputText <- readFile inputTextFile
     -- print $ M.keysSet normalMap
     putStrLn inputText
-    forM_ (Parser.parse normalMap inputText) $ \variant -> do
+    forM_ (Parser.parse parserMap inputText) $ \variant -> do
       putStrLn "======="
       putStrLn "Variant"
       putStrLn "======="
       forM_ variant $ \xs -> do
-        forM_ xs $ \Entry{..} ->
-          print entryTerm
+        forM_ xs $ \(Translation body) ->
+          print body
         putStrLn "--------"
 
  where
   -- Open the file
   cliOpts = Opt.info (cliArgs Opt.<**> Opt.helper) Opt.fullDesc
-  toPair entry@(Entry{..}) = (unpack $ unNormalisedTerm $ BetaConv.betacodeToNormal entryTerm, entry)
-
-group :: (Eq k, Hashable k) => [(k, v)] -> M.HashMap k [v]
-group = groupBase M.empty
-
-groupBase :: (Eq k, Hashable k) => M.HashMap k [v] -> [(k, v)] -> M.HashMap k [v]
-groupBase = L.foldl' (\m (k, v) -> inserts k v m)
-
-inserts :: (Eq k, Hashable k) => k -> v -> M.HashMap k [v] -> M.HashMap k [v]
-inserts k v = M.insertWith (const (v :)) k [v]

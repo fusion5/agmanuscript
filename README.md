@@ -63,7 +63,8 @@ used and the betacode normalised to latin chars. Find out what that is.
 
 ## TODO:
 
-Add http server to query the dictionary more efficiently
+Simplify parser: remove HashMap input and use Set input
+Add http server to query the dictionary and parse input more efficiently
 Make the parser efficient
 Benchmark serialisation to ensure that it runs in constant memory
 Consider simple-pipe also, there is xml-pipe
