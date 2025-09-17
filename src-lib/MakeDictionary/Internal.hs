@@ -11,7 +11,7 @@ where
 import Common
 import Conduit ((.|))
 import Data.Text as T
-import Dictionary.Types
+import Dictionary
 
 import Conduit qualified as C
 import Data.XML.Types qualified as XMLStream

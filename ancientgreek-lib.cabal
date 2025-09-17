@@ -12,8 +12,6 @@ library
   exposed-modules:
       Common
       Dictionary
-      Dictionary.BetaConv
-      Dictionary.Types
       MakeDictionary
       MakeDictionary.Internal
       Parser

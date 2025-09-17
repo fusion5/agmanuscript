@@ -5,13 +5,12 @@ import Conduit ((.|))
 import Conduit qualified as C
 import Data.Conduit.Serialization.Binary
 import Data.HashMap.Strict qualified as M
-import Dictionary.Types
+import Dictionary
 import Options.Applicative qualified as Opt
 import System.Directory qualified as Dir
 import Prelude
 import Data.Text (unpack)
 import Parser qualified
-import Dictionary
 
 data CLIArgs = CLIArgs
   { inputDictionaryFile :: FilePath
@@ -49,7 +48,7 @@ main =
           .| conduitDecode @(Entry BetacodeTerm)
           .| C.sinkList
     let
-      normalMap = convertEntries entries
+      normalMap = entriesToDictionary entries
       parserMap = M.mapKeys (unpack . unNormalisedTerm) normalMap
     putStrLn [qq|{length entries} dictionary entries loaded (betacode).|]
     putStrLn [qq|{M.size normalMap} dictionary entries (normalised).|]

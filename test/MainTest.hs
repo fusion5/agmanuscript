@@ -13,8 +13,7 @@ import Prelude
 
 import Conduit qualified as C
 import Data.HashMap.Strict qualified as Map
-import Dictionary.BetaConv qualified as BetaConv
-import Dictionary.Types qualified as D
+import Dictionary qualified as D
 import MakeDictionary qualified as MD
 import Parser qualified
 
@@ -84,6 +83,6 @@ betaconvSpec :: Spec
 betaconvSpec = do
   describe "Betacode conversion" $ do
     it "Any betacode word should be correctly translated to the Roman alphabet" $ do
-      BetaConv.betacodeToNormalEntry
+      D.betacodeToNormalEntry
         (D.Entry (D.BetacodeTerm "e(/kaston") (D.Translation ""))
         `shouldBe` D.Entry (D.NormalisedTerm "ekaston") (D.Translation "")
