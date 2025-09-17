@@ -52,16 +52,16 @@ library:
     - src-lib
 
 executables:
-  mkdictionary:
+  ag-mkdictionary:
     main: Main.hs
     source-dirs: 
-      - src-mkdictionary
+      - src-app-mkdictionary
     dependencies:
       - ancientgreek-lib
-  agparser:
+  ag-parser:
     main: Main.hs
     source-dirs: 
-      - src-agparser
+      - src-app-agparser
     dependencies:
       - ancientgreek-lib
       - binary-conduit
