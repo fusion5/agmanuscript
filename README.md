@@ -1,6 +1,6 @@
 # Ancient greek interpreter helper
 
-## Problem description:
+## Problem description
 
 Ancient greek text comes without spaces between words. Given a dictionary of words, split ancient
 greek text into possible sequences of words from the dictionary.
@@ -29,8 +29,8 @@ cabal run ag-parser -- \
     --input-text-file ./data/manuscript.in
 ```
 
-Bere, `dictionary.bin` is the dictionary generated using `ag-mkdictionary`, and manuscript.in is 
-a text file containing the words 
+Here, `dictionary.bin` is the dictionary generated using `ag-mkdictionary`, and `manuscript.in` is 
+a text file containing unseparated words. The output format is still a work in progress for now.
 
 ## Development guidelines
 
@@ -71,7 +71,7 @@ Keep only the roman characters and strip out anything else which would generate 
 
 Create dictionary deserialiser
 
-2025-09-15
+2025-09-16
 
 Fix the dictionary deserialiser. Possibly modify the serialiser to match. Using binary-conduit 
     seems to work for now.
@@ -82,6 +82,10 @@ Getting some results, but a phrase from the original text is not
 present. Add some more dictionary commands to be able to decipher meaning
 of individual words. There could be some discrepancy between the alphabet
 used and the betacode normalised to latin chars. Find out what that is.
+
+2025-09-17
+
+Refactor modules and write some documentation
 
 ## TODO:
 
