@@ -54,7 +54,6 @@ main =
     putStrLn [qq|{length entries} dictionary entries loaded (betacode).|]
     putStrLn [qq|{M.size normalMap} dictionary entries (normalised).|]
     inputText <- readFile inputTextFile
-    -- print $ M.keysSet normalMap
     putStrLn inputText
     forM_ (Parser.parse parserMap inputText) $ \variant -> do
       putStrLn "======="
@@ -66,5 +65,4 @@ main =
         putStrLn "--------"
 
  where
-  -- Open the file
   cliOpts = Opt.info (cliArgs Opt.<**> Opt.helper) Opt.fullDesc
