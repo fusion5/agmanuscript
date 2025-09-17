@@ -1,14 +1,36 @@
 # Ancient greek interpreter helper
 
-Usage:
+## Problem description:
+
+Ancient greek text comes without spaces between words. Given a dictionary of words, split ancient
+greek text into possible sequences of words from the dictionary.
+
+## Program usage 
+
+Enter a nix shell:
+
+```bash
+nix-shell
+```
 
 First, generate the dictionary in serialised format:
 
 ```
-cabal run mkdictionary -- \
+cabal run ag-mkdictionary -- \
     --input-path $dict_path/CTS_XML_TEI/perseus/pdllex/grc/lsj/ \
     --output-file dictionary.bin
 ```
+
+Then, parse an input using the dictionary:
+
+```
+cabal run ag-parser -- \
+    --input-dictionary-file ./dictionary.bin \
+    --input-text-file ./data/manuscript.in
+```
+
+Bere, `dictionary.bin` is the dictionary generated using `ag-mkdictionary`, and manuscript.in is 
+a text file containing the words 
 
 ## Development guidelines
 

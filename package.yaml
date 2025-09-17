@@ -55,13 +55,13 @@ executables:
   ag-mkdictionary:
     main: Main.hs
     source-dirs: 
-      - src-app-mkdictionary
+      - src-app-ag-mkdictionary
     dependencies:
       - ancientgreek-lib
   ag-parser:
     main: Main.hs
     source-dirs: 
-      - src-app-agparser
+      - src-app-ag-parser
     dependencies:
       - ancientgreek-lib
       - binary-conduit
