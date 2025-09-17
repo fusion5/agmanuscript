@@ -484,13 +484,12 @@ BETACODE_MAP = {
 }
 ```
 
-Here are some notes, useful links about this mapping:
+Here are some useful links about this mapping:
 
-[1]: https://github.com/PerseusDL/lexica/tree/master/CTS_XML_TEI/perseus/pdllex/grc/lsj
-[2]: https://github.com/matgrioni/betacode
-[3]: http://www.tlg.uci.edu/encoding/BCM.pdf
-[4]: https://github.com/PerseusDL/tei-conversion-tools/wiki/Greek-Betacode-to-Unicode-Transformations
-
+- https://github.com/PerseusDL/lexica/tree/master/CTS_XML_TEI/perseus/pdllex/grc/lsj
+- https://github.com/matgrioni/betacode
+- http://www.tlg.uci.edu/encoding/BCM.pdf
+- https://github.com/PerseusDL/tei-conversion-tools/wiki/Greek-Betacode-to-Unicode-Transformations
 
 ## Changelog
 
