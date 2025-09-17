@@ -1,10 +1,6 @@
-module MakeDictionary.Internal (
-  Conduit,
-  Entry (..),
-  Translation (..),
+module Dictionary.Conduit.FromTEIXML (
   parseEntry,
   processFile,
-  selectDepth,
 )
 where
 

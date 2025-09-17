@@ -3,19 +3,18 @@
 module MainTest where
 
 import Conduit ((.|))
+import Conduit qualified as C
 import Control.Monad (void)
 import Data.ByteString.Lazy
+import Data.HashMap.Strict qualified as Map
 import Data.XML.Types
+import Dictionary qualified as D
+import Dictionary.Conduit.FromTEIXML as TEIXML
+import Parser qualified
 import Test.Hspec
 import Test.QuickCheck.Instances.Natural ()
 import Text.XML.Stream.Parse
 import Prelude
-
-import Conduit qualified as C
-import Data.HashMap.Strict qualified as Map
-import Dictionary qualified as D
-import MakeDictionary qualified as MD
-import Parser qualified
 
 type Conduit i o r = C.ConduitT i o (C.ResourceT IO) r
 
@@ -38,13 +37,13 @@ main = hspec $
 dictionaryParseSpec :: Spec
 dictionaryParseSpec = describe "TEI format dictionary parsing" $ do
   it "Parse entryFree0.xml" $ do
-    testOnFile "./test-data/entryFree0.xml" (void MD.parseEntry)
+    testOnFile "./test-data/entryFree0.xml" (void TEIXML.parseEntry)
       `shouldReturn` [ D.Entry
                         (D.BetacodeTerm "key1")
                         (D.Translation "translation1")
                      ]
   it "Parse entryFree1.xml" $ do
-    testOnFile "./test-data/entryFree1.xml" (void $ many' MD.parseEntry)
+    testOnFile "./test-data/entryFree1.xml" (void $ many' TEIXML.parseEntry)
       `shouldReturn` [ D.Entry
                         (D.BetacodeTerm "key1")
                         (D.Translation "translation1")

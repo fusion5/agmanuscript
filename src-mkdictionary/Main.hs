@@ -2,10 +2,12 @@ module Main (main) where
 
 import Common
 import Prelude
-
-import MakeDictionary qualified as Dict
 import Options.Applicative qualified as Opt
 import System.Directory qualified as Dir
+import Data.Conduit as C
+import Data.Conduit.Combinators as C
+import Data.Conduit.Serialization.Binary as C
+import Dictionary.Conduit.FromTEIXML as TEIXML
 
 data CLIArgs = CLIArgs
   { dictionaryInputDirectory :: FilePath
@@ -45,6 +47,17 @@ main =
     unless exists $
       error
         [qq|The given directory path $dictionaryInputDirectory is not accessible|]
-    Dict.traverseDictionaryDir dictionaryInputDirectory dictionaryOutputFile
+    traverseDictionaryDir dictionaryInputDirectory dictionaryOutputFile
  where
   cliOpts = Opt.info (cliArgs Opt.<**> Opt.helper) Opt.fullDesc
+
+-- | Outputs to `outputFile` the dictionary in serialised format
+traverseDictionaryDir :: FilePath -> FilePath -> IO ()
+traverseDictionaryDir inputDirectory outputFile =
+  -- runConduitRes and ResourceT don't seem to be needed, except they are required by
+  -- sourceDirectory and sourceFile
+  C.runConduitRes $
+    C.sourceDirectory inputDirectory
+      .| C.awaitForever TEIXML.processFile
+      .| conduitEncode
+      .| C.sinkFile outputFile

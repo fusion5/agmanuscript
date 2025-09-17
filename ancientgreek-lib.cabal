@@ -12,8 +12,7 @@ library
   exposed-modules:
       Common
       Dictionary
-      MakeDictionary
-      MakeDictionary.Internal
+      Dictionary.Conduit.FromTEIXML
       Parser
   other-modules:
       Paths_ancientgreek_lib
