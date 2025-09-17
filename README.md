@@ -34,7 +34,13 @@ a text file containing unseparated words. The output format is still a work in p
 
 ## Development guidelines
 
-### Formatting: 
+### Run the test suite
+
+```
+cabal test
+```
+
+### Formatting
 
 ```
 fourmolu --mode inplace .

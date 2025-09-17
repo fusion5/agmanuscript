@@ -161,7 +161,7 @@ test-suite ancientgreek-test
   other-modules:
       Paths_ancientgreek_lib
   hs-source-dirs:
-      test
+      src-test
   default-extensions:
       DataKinds
       DeriveFunctor

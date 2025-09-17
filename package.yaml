@@ -70,8 +70,7 @@ tests:
   ancientgreek-test:
     main: MainTest
     source-dirs: 
-      - test
-      # - src
+      - src-test
     dependencies:
       - hspec
       - ancientgreek-lib
