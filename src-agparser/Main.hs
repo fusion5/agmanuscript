@@ -5,12 +5,12 @@ import Conduit ((.|))
 import Conduit qualified as C
 import Data.Conduit.Serialization.Binary
 import Data.HashMap.Strict qualified as M
+import Data.Text (unpack)
 import Dictionary
 import Options.Applicative qualified as Opt
+import Parser qualified
 import System.Directory qualified as Dir
 import Prelude
-import Data.Text (unpack)
-import Parser qualified
 
 data CLIArgs = CLIArgs
   { inputDictionaryFile :: FilePath
@@ -62,6 +62,5 @@ main =
         forM_ xs $ \(Translation body) ->
           print body
         putStrLn "--------"
-
  where
   cliOpts = Opt.info (cliArgs Opt.<**> Opt.helper) Opt.fullDesc
