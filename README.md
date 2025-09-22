@@ -538,8 +538,13 @@ used and the betacode normalised to latin chars. Find out what that is.
 
 Refactor modules and write some documentation
 
+2025-09-22
+
+For now adding just a REPL interface to query the dictionary
+
 ## TODO:
 
+- Readline input field for the repl
 - Simplify parser: remove HashMap input and use Set input
 - Add http server to query the dictionary and parse input more efficiently
 - Make the parser efficient

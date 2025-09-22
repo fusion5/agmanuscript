@@ -16,7 +16,9 @@ import Data.Hashable
 import Data.String
 import Data.Text
 
-newtype Translation = Translation Text
+newtype Translation = Translation {
+    unTranslation :: Text
+  }
   deriving (Eq, Show, Generic, Hashable)
 
 {- | Term containing betacode content. Example betacode word:
@@ -32,7 +34,7 @@ instance IsString BetacodeTerm where
 Example betacode term: 'iakunqotrofos'
 -}
 newtype NormalisedTerm = NormalisedTerm {unNormalisedTerm :: Text}
-  deriving (Eq, Show, Generic, Hashable)
+  deriving (Eq, Show, Generic, Hashable, Ord)
 
 data Entry a = Entry
   { entryTerm :: a
