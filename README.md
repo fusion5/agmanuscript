@@ -46,6 +46,12 @@ cabal test
 fourmolu --mode inplace .
 ```
 
+### Update LLM knowledge file:
+
+```
+./gen-knowledge.sh ./knowledge
+```
+
 ## Dictionary format
 
 The dictionary entries in XML format are in betacode format. But we wish to simplify our input by
